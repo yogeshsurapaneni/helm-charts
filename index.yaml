@@ -3,6 +3,17 @@ entries:
   grocy:
   - apiVersion: v2
     appVersion: latest
+    created: "2025-10-09T02:21:00.471231264Z"
+    description: “Grocy — ERP for your home (linuxserver/grocy)”
+    digest: c60f9ed69439dcf03860aea2bd80fc38cb581c58fe9ab163f00b790a34bdb862
+    icon: https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/grocy-logo.png
+    name: grocy
+    type: application
+    urls:
+    - https://github.com/yogeshsurapaneni/helm-charts/releases/download/grocy-0.1.1/grocy-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: latest
     created: "2025-10-09T02:06:39.346205359Z"
     description: “Grocy — ERP for your home (linuxserver/grocy)”
     digest: d26fa52aef9c24ae6932d448d702dd8870c20be26f017c0a03b92e5ea5392891
@@ -12,4 +23,4 @@ entries:
     urls:
     - https://github.com/yogeshsurapaneni/helm-charts/releases/download/grocy-0.1.0/grocy-0.1.0.tgz
     version: 0.1.0
-generated: "2025-10-09T02:06:39.346215919Z"
+generated: "2025-10-09T02:21:00.471240351Z"
