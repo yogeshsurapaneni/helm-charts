@@ -1,0 +1,83 @@
+# Default values for grocy chart
+
+replicaCount: 1
+
+image:
+  repository: linuxserver/grocy
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  name: http
+  port: 80
+  type: ClusterIP
+
+persistence:
+  enabled: true
+  storageClass: ""
+  accessMode: ReadWriteOnce
+  size: 5Gi
+  # mount path inside container
+  mountPath: /config
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+env: 
+  # Common environment vars for linuxserver images
+  PUID: 1000
+  PGID: 1000
+  TZ: UTC
+  # Additional Grocy-specific environment variables
+  # e.g.
+  # GROCY_BASE_URL: ""
+  # GROCY_DISABLE_URL_REWRITING: "false"
+
+livenessProbe:
+  enabled: true
+  # simple tcp check
+  httpGet:
+    path: /
+    port: http
+  initialDelaySeconds: 20
+  timeoutSeconds: 5
+  periodSeconds: 30
+  failureThreshold: 3
+
+readinessProbe:
+  enabled: true
+  httpGet:
+    path: /
+    port: http
+  initialDelaySeconds: 10
+  timeoutSeconds: 5
+  periodSeconds: 15
+  failureThreshold: 3
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: k3s-intermediate
+  hosts:
+    - host: grocy.apps.home
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    enabled: true
+    secretName: apps-home-tls
+    createCertificate: true
+    issuerRef:
+      name: k3s-intermediate
+      kind: ClusterIssuer

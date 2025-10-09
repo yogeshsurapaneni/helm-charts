@@ -1,0 +1,7 @@
+apiVersion: v2
+name: grocy
+description: “Grocy — ERP for your home (linuxserver/grocy)”
+type: application
+version: 0.1.0
+appVersion: "latest"
+icon: https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/grocy-logo.png
