@@ -23,4 +23,19 @@ entries:
     urls:
     - https://github.com/yogeshsurapaneni/helm-charts/releases/download/grocy-0.1.0/grocy-0.1.0.tgz
     version: 0.1.0
-generated: "2025-10-09T02:21:00.471240351Z"
+  immich:
+  - apiVersion: v2
+    appVersion: v1.138.0
+    created: "2025-10-10T02:37:34.929595747Z"
+    description: A Helm chart for deploying Immich (self-hosted photo and video backup)
+    digest: 1479b12a5fb871903d51fe85cfcf29798b3a2f52c3bb30ff034ed457f8e44556
+    icon: https://raw.githubusercontent.com/immich-app/immich/main/.github/immich-logo.png
+    maintainers:
+    - email: yogeshsurapaneni@gmail.com
+      name: Yogesh
+    name: immich
+    type: application
+    urls:
+    - https://github.com/yogeshsurapaneni/helm-charts/releases/download/immich-0.1.0/immich-0.1.0.tgz
+    version: 0.1.0
+generated: "2025-10-10T02:37:34.929606427Z"
