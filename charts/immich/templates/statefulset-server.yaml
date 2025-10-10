@@ -20,7 +20,11 @@ spec:
           envFrom:
             - configMapRef:
                 name: immich-env
+            - secretRef:
+                name: immich-db-secret
           env:
+            - name: IMMICH_VERSION
+              value: {{ .Values.immich.version }}
             - name: DB_HOSTNAME
               value: {{ .Values.server.env.DB_HOSTNAME }}
             - name: DB_PORT
