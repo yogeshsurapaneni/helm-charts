@@ -1,0 +1,71 @@
+immich:
+  version: v1.138.0
+
+imagePullPolicy: IfNotPresent
+
+server:
+  replicas: 1
+  image: ghcr.io/immich-app/immich-server
+  port: 2283
+  env:
+    DB_HOSTNAME: immich-db
+    DB_PORT: 5432
+    REDIS_HOSTNAME: immich-redis
+    REDIS_PORT: 6379
+  volumes:
+    uploadLocation: /data
+  storage:
+    upload:
+      size: 20Gi
+      storageClass: ""
+  resources: {}
+
+ml:
+  replicas: 1
+  image: ghcr.io/immich-app/immich-machine-learning
+  env:
+    DB_HOSTNAME: immich-db
+    DB_PORT: 5432
+    REDIS_HOSTNAME: immich-redis
+    REDIS_PORT: 6379
+  volumes:
+    cache: /cache
+  storage:
+    cache:
+      size: 10Gi
+      storageClass: ""
+  resources: {}
+
+redis:
+  image: docker.io/valkey/valkey:8-bookworm
+  port: 6379
+  resources: {}
+
+postgres:
+  image: ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0
+  port: 5432
+  env:
+    POSTGRES_DB: immich
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: postgres
+  storage:
+    size: 20Gi
+    storageClass: ""
+  resources: {}
+
+timezone: Etc/UTC
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/issuer: k3s-intermediate
+  hosts:
+    - host: photos.pi.home
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: immich-tls
+      hosts:
+        - photos.pi.home

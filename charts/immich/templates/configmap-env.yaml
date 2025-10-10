@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: immich-env
+data:
+  TZ: {{ .Values.timezone | quote }}
+  DB_USERNAME: {{ .Values.postgres.env.POSTGRES_USER | quote }}
+  DB_DATABASE_NAME: {{ .Values.postgres.env.POSTGRES_DB | quote }}

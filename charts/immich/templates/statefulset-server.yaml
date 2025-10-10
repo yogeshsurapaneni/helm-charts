@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: immich-server
+spec:
+  serviceName: immich-server
+  replicas: {{ .Values.server.replicas }}
+  selector:
+    matchLabels:
+      app: immich-server
+  template:
+    metadata:
+      labels:
+        app: immich-server
+    spec:
+      containers:
+        - name: immich-server
+          image: "{{ .Values.server.image }}:{{ .Values.immich.version }}"
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
+          envFrom:
+            - configMapRef:
+                name: immich-env
+          env:
+            - name: DB_HOSTNAME
+              value: {{ .Values.server.env.DB_HOSTNAME }}
+            - name: DB_PORT
+              value: "{{ .Values.server.env.DB_PORT }}"
+            - name: REDIS_HOSTNAME
+              value: {{ .Values.server.env.REDIS_HOSTNAME }}
+            - name: REDIS_PORT
+              value: "{{ .Values.server.env.REDIS_PORT }}"
+          ports:
+            - containerPort: {{ .Values.server.port }}
+          volumeMounts:
+            - name: upload-data
+              mountPath: {{ .Values.server.volumes.uploadLocation }}
+  volumeClaimTemplates:
+    - metadata:
+        name: upload-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: {{ .Values.server.storage.upload.size }}
+        storageClassName: "local-path"
