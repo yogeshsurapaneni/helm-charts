@@ -59,7 +59,7 @@ ingress:
   enabled: true
   className: nginx
   annotations:
-    cert-manager.io/issuer: k3s-intermediate
+    cert-manager.io/cluster-issuer: k3s-intermediate
   hosts:
     - host: photos.pi.home
       paths:

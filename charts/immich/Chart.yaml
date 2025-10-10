@@ -2,7 +2,7 @@ apiVersion: v2
 name: immich
 description: A Helm chart for deploying Immich (self-hosted photo and video backup)
 type: application
-version: 0.1.0
+version: 1.0.0
 appVersion: "v1.138.0"
 icon: https://raw.githubusercontent.com/immich-app/immich/main/.github/immich-logo.png
 maintainers:
