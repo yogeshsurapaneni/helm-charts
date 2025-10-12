@@ -2,5 +2,5 @@ apiVersion: v2
 name: postgres-pgvector
 description: Shared PostgreSQL instance with pgvector for low-memory clusters
 type: application
-version: 1.0.0
+version: 1.0.1
 appVersion: "14-vectorchord0.4.3-pgvectors0.2.0"
