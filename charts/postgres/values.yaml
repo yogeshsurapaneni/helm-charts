@@ -1,0 +1,30 @@
+image:
+  repository: postgres
+  tag: 14-vectorchord0.4.3-pgvectors0.2.0
+  pullPolicy: IfNotPresent
+
+postgresUser: postgres
+postgresPassword: changeme
+postgresPort: 5432
+
+databases:
+  - nextcloud
+  - immich
+  - paperless
+
+resources:
+  requests:
+    memory: 200Mi
+    cpu: 100m
+  limits:
+    memory: 600Mi
+    cpu: 500m
+
+storage:
+  size: 5Gi
+  storageClass: "local-path"
+
+service:
+  type: NodePort
+  port: 5432
+  nodePort: 30054

@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "postgres-shared.fullname" . }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "postgres-shared.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "postgres-shared.name" . }}
+    spec:
+      containers:
+        - name: postgres
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.postgresPort }}
+          env:
+            - name: POSTGRES_USER
+              value: {{ .Values.postgresUser }}
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "postgres-shared.fullname" . }}
+                  key: postgres-password
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+            - name: initdb
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ include "postgres-shared.fullname" . }}-data
+        - name: initdb
+          configMap:
+            name: {{ include "postgres-shared.fullname" . }}-initdb
+            defaultMode: 0755
