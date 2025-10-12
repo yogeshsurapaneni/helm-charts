@@ -8,9 +8,7 @@ postgresPassword: changeme
 postgresPort: 5432
 
 databases:
-  - nextcloud
-  - immich
-  - paperless
+  - init
 
 resources:
   requests:
