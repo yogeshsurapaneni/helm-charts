@@ -52,4 +52,16 @@ entries:
     urls:
     - https://github.com/yogeshsurapaneni/helm-charts/releases/download/immich-0.1.0/immich-0.1.0.tgz
     version: 0.1.0
-generated: "2025-10-10T02:49:21.956737761Z"
+  nextcloud:
+  - apiVersion: v2
+    appVersion: "1.0"
+    created: "2025-10-13T16:36:29.995296155Z"
+    description: Nextcloud with MariaDB, Redis, cert-manager PKCS12 keystore support
+    digest: d797497c6361f58bfb6a7dc65ff67e142019fa2cb32036d53faf5014872b791b
+    icon: https://www.nextcloud.com/wp-content/themes/nextcloudorg/assets/img/logo/nextcloud-logo-512.png
+    name: nextcloud
+    type: application
+    urls:
+    - https://github.com/yogeshsurapaneni/helm-charts/releases/download/nextcloud-0.1.1/nextcloud-0.1.1.tgz
+    version: 0.1.1
+generated: "2025-10-13T16:36:29.995305523Z"
