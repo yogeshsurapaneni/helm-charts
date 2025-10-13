@@ -55,6 +55,17 @@ entries:
   nextcloud:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2025-10-13T19:50:52.926958651Z"
+    description: Nextcloud with MariaDB, Redis, cert-manager PKCS12 keystore support
+    digest: ef2e87c0b38f7cef547a0e9efb9490efabe9a88dff940d05a0fe84069d242188
+    icon: https://www.nextcloud.com/wp-content/themes/nextcloudorg/assets/img/logo/nextcloud-logo-512.png
+    name: nextcloud
+    type: application
+    urls:
+    - https://github.com/yogeshsurapaneni/helm-charts/releases/download/nextcloud-0.1.2/nextcloud-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2025-10-13T16:36:29.995296155Z"
     description: Nextcloud with MariaDB, Redis, cert-manager PKCS12 keystore support
     digest: d797497c6361f58bfb6a7dc65ff67e142019fa2cb32036d53faf5014872b791b
@@ -64,4 +75,4 @@ entries:
     urls:
     - https://github.com/yogeshsurapaneni/helm-charts/releases/download/nextcloud-0.1.1/nextcloud-0.1.1.tgz
     version: 0.1.1
-generated: "2025-10-13T16:36:29.995305523Z"
+generated: "2025-10-13T19:50:52.926971676Z"
