@@ -47,6 +47,10 @@ spec:
               value: "admin"
             - name: NEXTCLOUD_TRUSTED_DOMAINS
               value: {{ .Values.ingress.host }}
+            - name: NEXTCLOUD_TRUSTED_PROXIES
+              value: {{ .Values.trustedProxies }}
+            - name: NEXTCLOUD_DOMAIN_NAME
+              value: {{ .Values.ingress.host }}
           lifecycle:
             postStart:
               exec:

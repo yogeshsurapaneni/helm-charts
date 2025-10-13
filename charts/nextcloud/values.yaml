@@ -54,14 +54,7 @@ storage:
   size: 10Gi
   accessModes: ["ReadWriteMany"]
 
-# NFS server placeholders for PV (if you prefer static PVs)
-nfs:
-  server: ""
-  mariadbPath: /your/nextcloud/runtime/db
-  appsPath: /your/nextcloud/apps
-  configPath: /your/nextcloud/config
-  dataPath: /your/nextcloud/data
-  htmlPath: /your/nextcloud/html
+trustedProxies: ""
 
 # Secrets (user should replace base64-encoded values or use helm --set or external secret manager)
 mariadbSecrets:
