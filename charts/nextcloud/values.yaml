@@ -1,0 +1,73 @@
+# Basic info
+namespace: nextcloud
+fullnameOverride: ""
+releaseName: nextcloud
+
+# Images
+images:
+  mariadb: mariadb:10.6
+  nextcloud: nextcloud:latest
+  redis: redis:alpine
+
+replicaCount:
+  mariadb: 1
+  nextcloud: 1
+  redis: 1
+
+# Service ports / targetPorts
+service:
+  mariadb:
+    port: 3306
+    targetPort: 3306
+    type: ClusterIP
+  nextcloud:
+    port: 80
+    targetPort: 80
+    type: ClusterIP
+  redis:
+    port: 6379
+    targetPort: 6379
+    type: ClusterIP
+
+# Domain / ingress options
+ingress:
+  enabled: true
+  host: nextcloud.domain.com
+  ingressClassName: ""      # set to your ingress controller class (e.g. "nginx", "traefik") or leave empty
+  annotations: {}          # extra annotations if needed
+  tlsSecretName: prod-yourdomain-tls
+
+# cert-manager settings
+certmanager:
+  enabled: true
+  issuerKind: ClusterIssuer     
+  issuerName: cluster-issuer-name
+
+# PKCS12 keystore secret (password) name
+pkcs12:
+  secretName: nextcloud-p12-password
+  secretKey: password
+
+# Storage (PVC)
+storage:
+  storageClass: local-path
+  size: 10Gi
+  accessModes: ["ReadWriteMany"]
+
+# NFS server placeholders for PV (if you prefer static PVs)
+nfs:
+  server: ""
+  mariadbPath: /your/nextcloud/runtime/db
+  appsPath: /your/nextcloud/apps
+  configPath: /your/nextcloud/config
+  dataPath: /your/nextcloud/data
+  htmlPath: /your/nextcloud/html
+
+# Secrets (user should replace base64-encoded values or use helm --set or external secret manager)
+mariadbSecrets:
+  MYSQL_USER: base64_encoded_user
+  MYSQL_ROOT_PASSWORD: base64_encoded_password
+  MYSQL_DATABASE: base64_encoded_database_name
+  MYSQL_PASSWORD: base64_encoded_password
+
+resources: {}

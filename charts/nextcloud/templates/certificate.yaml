@@ -1,0 +1,26 @@
+{{- if .Values.certmanager.enabled }}
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ include "nextcloud.fullname" . }}-tls
+  namespace: {{ .Values.namespace }}
+spec:
+  secretName: {{ .Values.ingress.tlsSecretName }}
+  commonName: {{ .Values.ingress.host }}
+  dnsNames:
+    - {{ .Values.ingress.host }}
+  issuerRef:
+    name: {{ .Values.certmanager.issuerName }}
+    kind: {{ default "ClusterIssuer" .Values.certmanager.issuerKind }}
+  # Here we instruct cert-manager to generate a PKCS#12 keystore alongside the TLS secret
+  keystores:
+    pkcs12:
+      create: true
+      # keystore password will be stored in a k8s Secret
+      passwordSecretRef:
+        name: {{ .Values.pkcs12.secretName }}
+        key: {{ .Values.pkcs12.secretKey }}
+  # Optional: duration and renewBefore
+  duration: 2160h # 90d
+  renewBefore: 360h # 15d
+{{- end }}

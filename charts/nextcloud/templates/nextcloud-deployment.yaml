@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "nextcloud.fullname" . }}-nextcloud
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: nextcloud
+spec:
+  replicas: {{ .Values.replicaCount.nextcloud }}
+  selector:
+    matchLabels:
+      app: nextcloud
+  template:
+    metadata:
+      labels:
+        app: nextcloud
+    spec:
+      containers:
+        - name: nextcloud
+          image: {{ .Values.images.nextcloud }}
+          env:
+            - name: REDIS_HOST
+              value: {{ include "nextcloud.fullname" . }}-redis
+            - name: MYSQL_HOST
+              value: {{ include "nextcloud.fullname" . }}-mariadb
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "nextcloud.fullname" . }}-mariadb-secrets
+                  key: MYSQL_DATABASE
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "nextcloud.fullname" . }}-mariadb-secrets
+                  key: MYSQL_PASSWORD
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "nextcloud.fullname" . }}-mariadb-secrets
+                  key: MYSQL_USER
+            - name: NEXTCLOUD_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "nextcloud.fullname" . }}-mariadb-secrets
+                  key: MYSQL_PASSWORD
+            - name: NEXTCLOUD_ADMIN_USER
+              value: "admin"
+            - name: NEXTCLOUD_TRUSTED_DOMAINS
+              value: {{ .Values.ingress.host }}
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - sh
+                  - -c
+                  - "apt-get update && apt-get install -y openrc && start-stop-daemon --start --background --pidfile /cron.pid --exec /cron.sh || true"
+          resources:
+{{- if .Values.resources }}
+{{ toYaml .Values.resources | indent 12 }}
+{{- end }}
+          volumeMounts:
+            - name: apps
+              mountPath: /var/www/html/custom_apps
+            - name: config
+              mountPath: /var/www/html/config
+            - name: data
+              mountPath: /var/www/html/data
+            - name: html
+              mountPath: /var/www/html
+      volumes:
+        - name: apps
+          persistentVolumeClaim:
+            claimName: pvc-nextcloud-apps
+        - name: config
+          persistentVolumeClaim:
+            claimName: pvc-nextcloud-config
+        - name: data
+          persistentVolumeClaim:
+            claimName: pvc-nextcloud-data
+        - name: html
+          persistentVolumeClaim:
+            claimName: pvc-nextcloud-html

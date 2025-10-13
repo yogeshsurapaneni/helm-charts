@@ -1,0 +1,14 @@
+{{- range $name := list "apps" "config" "data" "html" }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-nextcloud-{{ $name }}
+  namespace: {{ $.Values.namespace }}
+spec:
+  accessModes: {{ toYaml $.Values.storage.accessModes | nindent 2 }}
+  storageClassName: {{ $.Values.storage.storageClass }}
+  resources:
+    requests:
+      storage: {{ $.Values.storage.size }}
+---
+{{- end }}
