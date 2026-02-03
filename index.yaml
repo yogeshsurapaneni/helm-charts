@@ -75,4 +75,15 @@ entries:
     urls:
     - https://github.com/yogeshsurapaneni/helm-charts/releases/download/nextcloud-0.1.1/nextcloud-0.1.1.tgz
     version: 0.1.1
-generated: "2025-10-13T19:50:52.926971676Z"
+  vaultwarden:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2026-02-03T19:44:23.466806594Z"
+    description: A Helm chart for vaultwarden - a self-hosted password manager
+    digest: a7198bcdd360f65dadd83518ace5696c41c4236a42ea6333a6083fc4c27651b9
+    name: vaultwarden
+    type: application
+    urls:
+    - https://github.com/yogeshsurapaneni/helm-charts/releases/download/vaultwarden-0.1.0/vaultwarden-0.1.0.tgz
+    version: 0.1.0
+generated: "2026-02-03T19:44:23.466821472Z"
