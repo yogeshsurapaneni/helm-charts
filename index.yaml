@@ -78,6 +78,16 @@ entries:
   vaultwarden:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2026-02-03T20:52:19.414158731Z"
+    description: A Helm chart for vaultwarden - a self-hosted password manager
+    digest: beaa2d9fa9bd78f13b13995bf5759fd02898b83673a3f3a1a2b72d62ce46210d
+    name: vaultwarden
+    type: application
+    urls:
+    - https://github.com/yogeshsurapaneni/helm-charts/releases/download/vaultwarden-0.1.1/vaultwarden-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2026-02-03T19:44:23.466806594Z"
     description: A Helm chart for vaultwarden - a self-hosted password manager
     digest: a7198bcdd360f65dadd83518ace5696c41c4236a42ea6333a6083fc4c27651b9
@@ -86,4 +96,4 @@ entries:
     urls:
     - https://github.com/yogeshsurapaneni/helm-charts/releases/download/vaultwarden-0.1.0/vaultwarden-0.1.0.tgz
     version: 0.1.0
-generated: "2026-02-03T19:44:23.466821472Z"
+generated: "2026-02-03T20:52:19.41417434Z"
