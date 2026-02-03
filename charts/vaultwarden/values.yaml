@@ -2,7 +2,7 @@ image:
   repository: vaultwarden/server
   tag: latest
 
-domain: "https://vault.web.yogeshsurapaneni.top"
+domain: "https://hostname.example.com"
 sslSecretName: "vw-ssl-certs"
 
 service:
@@ -14,7 +14,7 @@ ingress:
   className: "nginx"
   annotations:
     traefik.ingress.kubernetes.io/router.entryPoints: websecure
-  host: "vault.web.yogeshsurapaneni.top"
+  host: "hostname.example.com"
 
 persistence:
   enabled: true
