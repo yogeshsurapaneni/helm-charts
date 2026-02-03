@@ -1,0 +1,22 @@
+image:
+  repository: vaultwarden/server
+  tag: latest
+
+domain: "https://vault.web.yogeshsurapaneni.top"
+sslSecretName: "vw-ssl-certs"
+
+service:
+  type: ClusterIP
+  port: 443
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    traefik.ingress.kubernetes.io/router.entryPoints: websecure
+  host: "vault.web.yogeshsurapaneni.top"
+
+persistence:
+  enabled: true
+  size: 1Gi
+  storageClass: "local-path"
