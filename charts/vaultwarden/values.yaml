@@ -3,7 +3,6 @@ image:
   tag: latest
 
 domain: "https://hostname.example.com"
-sslSecretName: "vw-ssl-certs"
 
 service:
   type: ClusterIP

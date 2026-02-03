@@ -18,21 +18,14 @@ spec:
           env:
             - name: DOMAIN
               value: {{ .Values.domain | quote }}
-            # Pointing Vaultwarden to the mounted secret paths
-            - name: ROCKET_TLS
-              value: '{certs="/ssl/tls.crt",key="/ssl/tls.key"}'
+            - name: SIGNUPS_ALLOWED
+              value: "true"
           ports:
             - containerPort: 80
           volumeMounts:
             - name: vw-data
               mountPath: /data
-            - name: ssl-certs
-              mountPath: /ssl
-              readOnly: true
       volumes:
         - name: vw-data
           persistentVolumeClaim:
             claimName: {{ .Values.persistence.existingClaim | default (include "vaultwarden.fullname" .) }}
-        - name: ssl-certs
-          secret:
-            secretName: {{ .Values.sslSecretName }}
