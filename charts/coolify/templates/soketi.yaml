@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: soketi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: soketi
+  template:
+    metadata:
+      labels:
+        app: soketi
+    spec:
+      containers:
+        - name: soketi
+          image: {{ .Values.soketi.image }}
+          ports:
+            - containerPort: 6001
+            - containerPort: 6002
+          envFrom:
+            - configMapRef:
+                name: coolify-env
+            - secretRef:
+                name: coolify-secrets

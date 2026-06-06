@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coolify-env
+data:
+  APP_ENV: {{ .Values.env.APP_ENV | quote }}
+  APP_NAME: {{ .Values.env.APP_NAME | quote }}
+
+  DB_HOST: {{ .Values.external.postgres.host | quote }}
+  DB_PORT: {{ .Values.external.postgres.port | quote }}
+  DB_DATABASE: {{ .Values.external.postgres.database | quote }}
+  DB_USERNAME: {{ .Values.external.postgres.username | quote }}
+
+  REDIS_HOST: {{ .Values.external.redis.host | quote }}
+  REDIS_PORT: {{ .Values.external.redis.port | quote }}
+  REGISTRY_URL: {{ .Values.external.registry.url | quote }}
+
+  PHP_MEMORY_LIMIT: {{ .Values.env.PHP_MEMORY_LIMIT | quote }}
+  PHP_FPM_PM_CONTROL: {{ .Values.env.PHP_FPM_PM_CONTROL | quote }}
+  PHP_FPM_PM_START_SERVERS: {{ .Values.env.PHP_FPM_PM_START_SERVERS | quote }}
+  PHP_FPM_PM_MIN_SPARE_SERVERS: {{ .Values.env.PHP_FPM_PM_MIN_SPARE_SERVERS | quote }}
+  PHP_FPM_PM_MAX_SPARE_SERVERS: {{ .Values.env.PHP_FPM_PM_MAX_SPARE_SERVERS | quote }}

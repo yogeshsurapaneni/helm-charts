@@ -1,0 +1,6 @@
+apiVersion: v2
+name: coolify
+description: A Helm chart for Coolify on Kubernetes. An open-source & self-hostable alternative to Vercel, Heroku, Netlify and Railway for easily deploying websites, databases, web applications and 280+ one-click services to your own server. This is based on coolify documentation https://coolify.io/docs/get-started/installation#manual-installation
+type: application
+version: 0.1.0
+appVersion: "v4.0.0"

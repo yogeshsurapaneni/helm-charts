@@ -1,0 +1,54 @@
+image:
+  repository: ghcr.io/coollabsio/coolify
+  tag: latest
+  pullPolicy: IfNotPresent
+
+soketi:
+  image: ghcr.io/coollabsio/coolify-realtime:1.0.10
+
+storageClass: local-path
+storageSize: 10Gi
+
+env:
+  APP_ENV: production
+  APP_NAME: Coolify
+
+secrets:
+  DB_PASSWORD: "89b6d54e93a4af2c9dd822ea"
+  REDIS_PASSWORD: ""
+  PUSHER_APP_ID: "45c9676978975fa6c2340c1beadf983bacc7987db379bbd52153858aa2dfb910"
+  PUSHER_APP_KEY: "ee60eb55cd32d80916c998d54540f688be3db7063085643cef66c1d88c5c529c"
+  PUSHER_APP_SECRET: "39237646b4eebb3ad11dcb0b0480bf71afabd3456c8969b8a0abb452a533567d"
+  APP_ID: "49c207d04037f2b03b4e19dc0c779476"
+  APP_KEY: "base64:ijxW29U6nK4y4O6k3NtlE3Y+yBX5oVvnwBvFNH+aC3g="
+
+external:
+  postgres:
+    host: postgres-rw.postgres.svc.cluster.local
+    port: "5432"
+    database: coolify
+    username: postgres
+
+  redis:
+    host: redis-master.redis.svc.cluster.local
+    port: "6379"
+  registry:
+    url: "ghcr.io"
+
+env:
+  APP_ENV: production
+  APP_NAME: Coolify
+  PHP_MEMORY_LIMIT: 256M
+  PHP_FPM_PM_CONTROL: dynamic
+  PHP_FPM_PM_START_SERVERS: 1
+  PHP_FPM_PM_MIN_SPARE_SERVERS: 1
+  PHP_FPM_PM_MAX_SPARE_SERVERS: 2
+
+ingress:
+  enabled: true
+  className: traefik
+  host: coolify.internal.yogeshsurapaneni.top
+
+  tls:
+    enabled: true
+    secretName: coolify-tls

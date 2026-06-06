@@ -1,0 +1,129 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "coolify.fullname" . }}
+spec:
+  serviceName: {{ include "coolify.fullname" . }}
+  replicas: 1
+
+  selector:
+    matchLabels:
+      {{- include "coolify.selectorLabels" . | nindent 6 }}
+
+  template:
+    metadata:
+      labels:
+        {{- include "coolify.labels" . | nindent 8 }}
+
+    spec:
+      initContainers:
+        - name: init-coolify
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          securityContext:
+            runAsUser: 0
+          envFrom:
+            - configMapRef:
+                name: coolify-env
+            - secretRef:
+                name: coolify-secrets
+          command:
+            - sh
+            - -c
+            - |
+              set -e
+
+              echo "Waiting for Postgres..."
+                until nc -z $DB_HOST $DB_PORT; do
+                sleep 2
+              done
+              echo "Waiting for Redis..."
+                until nc -z $REDIS_HOST $REDIS_PORT; do
+                sleep 2
+              done
+
+              mkdir -p /var/www/html/storage/app/source \
+                      /var/www/html/storage/app/ssh \
+                      /var/www/html/storage/app/applications \
+                      /var/www/html/storage/app/databases \
+                      /var/www/html/storage/app/backups \
+                      /var/www/html/storage/app/services \
+                      /var/www/html/storage/app/proxy \
+                      /var/www/html/storage/app/webhooks-during-maintenance
+              mkdir -p /var/www/html/storage/app/ssh/keys \
+                      /var/www/html/storage/app/ssh/mux
+              mkdir -p /var/www/html/storage/app/proxy/dynamic
+
+              if [ ! -f /var/www/html/storage/app/ssh/keys/id.localhost ]; then
+                apk add --no-cache openssh
+
+                ssh-keygen \
+                  -f /var/www/html/storage/app/ssh/keys/id.localhost \
+                  -t ed25519 \
+                  -N '' \
+                  -C root@coolify
+              fi
+
+              chown -R 9999:root /var/www/html
+              chmod -R 700 /var/www/html
+
+              ENV_FILE="/var/www/html/.env"
+              echo "Generating .env file at $ENV_FILE"
+
+              # Empty existing file
+              : > "$ENV_FILE"
+
+              # Export configMap variables
+              for var in $(compgen -v); do
+                # Only include variables from ConfigMap + Secret (common naming pattern)
+                # optionally filter for known vars
+                if echo "$var" | grep -Eq '^(APP_|DB_|REDIS_|PUSHER_)'; then
+                  echo "$var=${!var}" >> "$ENV_FILE"
+                fi
+              done
+
+              echo ".env generated successfully"
+
+          volumeMounts:
+            - name: data
+              mountPath: /var/www/html
+
+      containers:
+        - name: coolify
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+
+          ports:
+            - containerPort: 8080
+              name: http
+          envFrom:
+            - configMapRef:
+                name: coolify-env
+            - secretRef:
+                name: coolify-secrets
+
+          # livenessProbe:
+          #   httpGet:
+          #     path: /api/health
+          #     port: 8000
+          #   initialDelaySeconds: 30
+
+          # readinessProbe:
+          #   httpGet:
+          #     path: /api/health
+          #     port: 8000
+          #   initialDelaySeconds: 10
+
+          volumeMounts:
+            - name: data
+              mountPath: /var/www/html
+
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: {{ .Values.storageClass }}
+        resources:
+          requests:
+            storage: {{ .Values.storageSize }}
