@@ -1,5 +1,19 @@
 apiVersion: v1
 entries:
+  coolify:
+  - apiVersion: v2
+    appVersion: v4.0.0
+    created: "2026-06-06T08:36:14.099635028Z"
+    description: A Helm chart for Coolify on Kubernetes. An open-source & self-hostable
+      alternative to Vercel, Heroku, Netlify and Railway for easily deploying websites,
+      databases, web applications and 280+ one-click services to your own server.
+      This is based on coolify documentation https://coolify.io/docs/get-started/installation#manual-installation
+    digest: e2383f6dd39716c8994c90e912be5266c2a92e7a73ad100c230444798110b9ed
+    name: coolify
+    type: application
+    urls:
+    - https://github.com/yogeshsurapaneni/helm-charts/releases/download/coolify-0.1.0/coolify-0.1.0.tgz
+    version: 0.1.0
   grocy:
   - apiVersion: v2
     appVersion: latest
@@ -96,4 +110,4 @@ entries:
     urls:
     - https://github.com/yogeshsurapaneni/helm-charts/releases/download/vaultwarden-0.1.0/vaultwarden-0.1.0.tgz
     version: 0.1.0
-generated: "2026-02-03T20:52:19.41417434Z"
+generated: "2026-06-06T08:36:14.099647481Z"
